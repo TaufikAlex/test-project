@@ -13,11 +13,11 @@ function fibonacci(n) {
   return b;
 }
 
-export function RenameCounts(id, newNickname) {
-  if (!renameCounts[id]) {
-    renameCounts[id] = 0; // Initialize rename count
+export function RenameCounts(uid, newNickname) {
+  if (!renameCounts[uid]) {
+    renameCounts[uid] = 0; // Initialize rename count
   }
-  const fibIndex = renameCounts[id]++;
+  const fibIndex = renameCounts[uid]++;
   const fibonacciNumber = fibonacci(fibIndex);
   const renamedPokemon = `${newNickname}-${fibonacciNumber}`;
 

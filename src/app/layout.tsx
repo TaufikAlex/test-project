@@ -9,7 +9,7 @@ const App = ({ children }: { children: React.ReactNode }) => {
     <div className="font-inter min-h-screen">
       <QueryProvider>
         <Header />
-        <main className="pt-10">
+        <main className="flex-grow pt-10">
           <article className="container p-10">{children}</article>
         </main>
         <Footer />

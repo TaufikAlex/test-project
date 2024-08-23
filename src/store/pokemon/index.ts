@@ -2,12 +2,12 @@ import { MyPokemonData } from '@/types';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 interface PokemonState {
-  id: number;
+  uid:string;
   myPokemons: MyPokemonData[]; 
 }
 
 const initialState: PokemonState = {
-  id: 0, // Initialize with a default value
+  uid: '0', // Initialize with a default value
   myPokemons: JSON.parse(localStorage.getItem('myPokemons') || '[]'), 
 };
 
@@ -24,16 +24,16 @@ const pokemonSlice = createSlice({
       localStorage.setItem('myPokemons', JSON.stringify(state.myPokemons));
     },
     
-    renamePokemon(state, action: PayloadAction<{ id: number; nickname: string }>) {
-      const { id, nickname } = action.payload;
-      const index = state.myPokemons.findIndex(pokemon => pokemon.id === id);
+    renamePokemon(state, action: PayloadAction<{ uid: string; nickname: string }>) {
+      const { uid, nickname } = action.payload;
+      const index = state.myPokemons.findIndex(pokemon => pokemon.uid === uid);
       if (index !== -1) {
         state.myPokemons[index].nickname = nickname;
         localStorage.setItem('myPokemons', JSON.stringify(state.myPokemons));
       }
     },
-    releasePokemon(state, action: PayloadAction<number>) {
-      state.myPokemons = state.myPokemons.filter(pokemon => pokemon.id !== action.payload);
+    releasePokemon(state, action: PayloadAction<string>) {
+      state.myPokemons = state.myPokemons.filter(pokemon => pokemon.uid !== action.payload);
       localStorage.setItem('myPokemons', JSON.stringify(state.myPokemons));
     },
   },

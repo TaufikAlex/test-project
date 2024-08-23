@@ -1,6 +1,6 @@
 
 export interface PokemonData {
-  uid?: number;
+  uid?: string;
   id: number;
   name: string;
   nickname?: string;
@@ -13,7 +13,7 @@ export interface PokemonData {
 }
 
 export interface MyPokemonData {
-  uid: number;
+  uid: string;
   id: number;
   name: string;
   nickname: string;

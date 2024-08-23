@@ -33,27 +33,29 @@ export default function PokemonList() {
   }
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-4 gap-2">
-      {pokemonList.map((pokemon, index) => (
-        <PokemonCard
-          key={index}
-          pokemonName={pokemon.name}
-          pokemonRealName={pokemon.name}
-          pokemonImgUrl={getImageURL(pokemon.id)}
-          pokemonId={pokemon.id}
-        />
-      ))}
+    <div className="flex flex-col min-h-screen">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-2">
+        {pokemonList.map((pokemon, index) => (
+          <PokemonCard
+            key={index}
+            pokemonName={pokemon.name}
+            pokemonRealName={pokemon.name}
+            pokemonImgUrl={getImageURL(pokemon.id)}
+            pokemonId={pokemon.id}
+          />
+        ))}
 
-      <div className="fixed bottom-0 flex flex-row gap-2 md:bottom-[-10] right-4 mb-4 mr-4">
-        <Button
-          disabled={currentPage === 0}
-          onClick={() => updatePagePosition(-itemsPerPage)}
-        >
-          <ChevronLeft />
-        </Button>
-        <Button onClick={() => updatePagePosition(itemsPerPage)}>
-          <ChevronRight />
-        </Button>
+        <div className="flex justify-center my-4">
+          <Button
+            disabled={currentPage === 0}
+            onClick={() => updatePagePosition(-itemsPerPage)}
+          >
+            <ChevronLeft />
+          </Button>
+          <Button onClick={() => updatePagePosition(itemsPerPage)}>
+            <ChevronRight />
+          </Button>
+        </div>
       </div>
     </div>
   );

@@ -10,6 +10,7 @@ import {
   ShieldAlertIcon,
 } from 'lucide-react';
 import React, { Suspense, useState } from 'react';
+import { v4 as uuidv4 } from 'uuid';
 import { Link, useNavigate } from 'react-router-dom';
 import { Badge } from '../badge';
 import Dialog from '../dialog';
@@ -68,14 +69,14 @@ const PokemonDetails = ({ pokemonData, pokemonImageURL }: Props) => {
     setTimeout(() => {
       dispatch(
         addPokemon({
-          uid: pokemonData.uid || 0,
+          uid: uuidv4(),
           nickname: newNickname,
           ...pokemonData,
         })
       );
       setOpenDialog(false);
       setIsSaving(false);
-      navigate('');
+      navigate('/mypokemon-list');
     }, 2000);
   };
 

@@ -24,7 +24,7 @@ const MyPokemonPage = () => {
   );
 
   const [newNickname, setNewNickname] = useState<{
-    id: number;
+    uid: string;
     nickname: string;
   } | null>(null);
 
@@ -34,7 +34,7 @@ const MyPokemonPage = () => {
     (currentPage + 1) * itemsPerPage
   );
 
-  const handleRenamePokemon = (data: { id: number; nickname: string }) => {
+  const handleRenamePokemon = (data: { uid: string; nickname: string }) => {
     setOpenDialog(true);
     setNewNickname(data);
   };
@@ -46,8 +46,8 @@ const MyPokemonPage = () => {
   const handleSave = () => {
     if (newNickname) {
       try {
-        const nickname = RenameCounts(newNickname.id, newNickname.nickname);
-        dispatch(renamePokemon({ id: newNickname.id, nickname }));
+        const nickname = RenameCounts(newNickname.uid, newNickname.nickname);
+        dispatch(renamePokemon({ uid: newNickname.uid, nickname }));
         handleOnCloseUnsuccess();
       } catch {
         setOpenDialog(true);
@@ -56,9 +56,9 @@ const MyPokemonPage = () => {
     }
   };
 
-  const handleReleasePokemon = (id: number) => {
+  const handleReleasePokemon = (uid: string) => {
     try {
-      dispatch(releasePokemon(id));
+      dispatch(releasePokemon(uid));
     } catch {
       setOpenDialog(true);
       // setIsUnsuccessRelease(true);
@@ -71,28 +71,41 @@ const MyPokemonPage = () => {
     }
   };
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
-      {paginatedPokemons.map((pokemon, index) => (
-        <PokemonCard
-          key={index}
-          pokemonName={pokemon.nickname || ''}
-          pokemonRealName={pokemon.name}
-          pokemonImgUrl={getImageURL(pokemon.id)}
-          pokemonId={pokemon.id}
-          isCardAction
-          onClickRename={(e) => {
-            e.stopPropagation();
-            handleRenamePokemon({
-              id: pokemon.id,
-              nickname: pokemon.nickname,
-            });
-          }}
-          onClickRelease={(e) => {
-            e.stopPropagation();
-            handleReleasePokemon(pokemon.id);
-          }}
-        />
-      ))}
+    <div className="flex flex-col min-h-screen">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-2">
+        {paginatedPokemons.map((pokemon, index) => (
+          <PokemonCard
+            key={index}
+            pokemonName={pokemon.nickname || ''}
+            pokemonRealName={pokemon.name}
+            pokemonImgUrl={getImageURL(pokemon.id)}
+            pokemonId={pokemon.id}
+            isCardAction
+            onClickRename={(e) => {
+              e.stopPropagation();
+              handleRenamePokemon({
+                uid: pokemon.uid,
+                nickname: pokemon.nickname,
+              });
+            }}
+            onClickRelease={(e) => {
+              e.stopPropagation();
+              handleReleasePokemon(pokemon.uid);
+            }}
+          />
+        ))}
+      </div>
+      <div className="flex justify-center my-4">
+        <Button
+          disabled={currentPage === 0}
+          onClick={() => updatePagePosition(-itemsPerPage)}
+        >
+          <ChevronLeft />
+        </Button>
+        <Button onClick={() => updatePagePosition(itemsPerPage)}>
+          <ChevronRight />
+        </Button>
+      </div>
 
       <Dialog isOpen={openDialog}>
         <Card>
@@ -116,18 +129,6 @@ const MyPokemonPage = () => {
           </CardContent>
         </Card>
       </Dialog>
-
-      <div className=" bottom-0 flex flex-row gap-2 md:bottom-[-10] right-4 mb-4 mr-4">
-        <Button
-          disabled={currentPage === 0}
-          onClick={() => updatePagePosition(-itemsPerPage)}
-        >
-          <ChevronLeft />
-        </Button>
-        <Button onClick={() => updatePagePosition(itemsPerPage)}>
-          <ChevronRight />
-        </Button>
-      </div>
     </div>
   );
 };
