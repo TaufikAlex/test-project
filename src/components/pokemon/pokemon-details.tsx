@@ -48,7 +48,8 @@ const PokemonDetails = ({ pokemonData, pokemonImageURL }: Props) => {
     // Simulate catching process
     setTimeout(() => {
       // Simulate success or failure
-      if (Math.random() > 0.1) {
+      if (Math.random() > 0.5) {
+        // chance
         // REST API to return probability is 50% when catching Pokemon.
         setIsSuccessCatching(true);
       } else {
